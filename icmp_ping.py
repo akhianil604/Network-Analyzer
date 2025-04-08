@@ -63,6 +63,11 @@ def send_icmp_ping(dest_ip):
     finally:
         sock.close()
 
+def ping_interface():
+    target = input("Enter IP address to ping: ")
+    print(f"Pinging {target} with Python ICMP...")
+    send_icmp_ping(target)
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print(f"Usage: sudo python3 {sys.argv[0]} <target_ip>")
