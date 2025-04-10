@@ -35,32 +35,31 @@ def get_active_connections(resolve_hostnames, resolve_services):
 
 def draw_ui(stdscr, new, closed, active, resolve_hostnames, resolve_services):
     stdscr.clear()
+    max_y, max_x = stdscr.getmaxyx()
     stdscr.addstr(0, 0, f"[{datetime.now().strftime('%H:%M:%S')}] Connections: {len(active)}", curses.A_BOLD)
-
     y = 2
-    for label, data, color in [("NEW", new, curses.color_pair(2)), ("CLOSED", closed, curses.color_pair(1))]:
+    sections = [("NEW", new, curses.color_pair(2)), ("CLOSED", closed, curses.color_pair(1)), ("ACTIVE", active, curses.A_NORMAL)]
+    for label, data, color in sections:
         for k in data:
+            if y >= max_y - 1:
+                break  
             info = data[k]
             lhost, lport = info['local']
             rhost, rport = info['remote']
-            stdscr.addstr(y, 0, f"{label:<7} {info['status']:<13} {lhost}:{lport:<5} -> {rhost}:{rport:<5} {info['process']}", color)
+            line = f"{label:<7} {info['status']:<13} {lhost}:{lport:<5} -> {rhost}:{rport:<5} {info['process']}"
+            if len(line) >= max_x:
+                line = line[:max_x - 1]  # Truncate if too wide
+            stdscr.addstr(y, 0, line, color)
             y += 1
 
-    for k in active:
-        if k not in new:
-            info = active[k]
-            lhost, lport = info['local']
-            rhost, rport = info['remote']
-            stdscr.addstr(y, 0, f"{'ACTIVE':<7} {info['status']:<13} {lhost}:{lport:<5} -> {rhost}:{rport:<5} {info['process']}")
-            y += 1
-
-    # Bandwidth display
-    if os.geteuid() == 0 and bandwidth:
+    if os.geteuid() == 0 and bandwidth and y < max_y - 2:
         stdscr.addstr(y + 1, 0, "--- Bandwidth Usage (bytes/sec) ---", curses.A_UNDERLINE)
+        y += 2
         for ip, bytes_count in bandwidth.items():
-            stdscr.addstr(y + 2, 0, f"{ip:<15} : {bytes_count}")
+            if y >= max_y - 1:
+                break
+            stdscr.addstr(y, 0, f"{ip:<15} : {bytes_count}")
             y += 1
-
     stdscr.refresh()
 
 def bandwidth_sniffer(pkt):
@@ -101,6 +100,9 @@ def start_monitor():
         curses.wrapper(run_monitor)
     except KeyboardInterrupt:
         print("\nMonitor stopped.")
-
+        
 if __name__ == "__main__":
-    curses.wrapper(run_monitor)
+    try:
+        curses.wrapper(run_monitor)
+    except KeyboardInterrupt:
+        print("\nMonitor stopped.")

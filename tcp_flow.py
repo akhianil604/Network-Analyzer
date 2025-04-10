@@ -69,21 +69,16 @@ class TCPFlowAnalyzer:
                 seq_time = self.flows[reverse_flow]['seq_nums'].pop(acknowledgement)
                 rtt = time.time() - seq_time
                 self.flows[reverse_flow]['rtt_samples'].append(rtt)
-
+                print(f"RTT measured for {reverse_flow} → {rtt*1000:.2f} ms")
             flow = self.flows[forward_flow]
             if not flow['start_time']:
                 flow['start_time'] = time.time()
-
             flow['ack_nums'].add(acknowledgement)
-
             if sequence in flow['seq_nums'] and data_size > 0:
                 flow['retransmissions'] += 1
-
             if data_size > 0:
                 flow['seq_nums'][sequence + data_size] = time.time()
-
             flow['window_sizes'].append(window_size)
-
         flow = self.flows[forward_flow]
         flow['last_update'] = time.time()
         flow['packets'] += 1
