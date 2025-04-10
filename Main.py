@@ -3,6 +3,13 @@ import SecureComm
 import GeoIP
 import socket
 import ARP
+import icmp_ping
+import tcp_monitor
+import tcp_flow
+import port_scanner
+import packet_loss
+import EDA
+import DOS
 from collections import defaultdict
 import time
 
@@ -14,7 +21,14 @@ def main():
             print("2. Secure End-to-End Encrypted Communication")
             print("3. GeoIP")
             print("4. ARP Spoofing")
-            print("5. Exit")
+            print("5. ICMP Ping")
+            print("6. TCP Connection Monitor")
+            print("7. TCP Flow Analysis")
+            print("8. Port Scanner")
+            print("9. Network Performance Monitor")
+            print("10. DOS Attack Detection")
+            print("11. EDA on Network Traffic")
+            print("12. Exit")
             choice = input("Enter your choice: ")
             if choice == "1":
                 PacketSniffer.sniff_packets()
@@ -48,11 +62,32 @@ def main():
                         print("ARP Spoofing detection stopped.")
                         break
             elif choice == "5":
+                icmp_ping.ping_interface()
+                break
+            elif choice == "6":
+                tcp_monitor.start_monitor()
+                break
+            elif choice == "7":
+                tcp_flow.start_flow_analysis()
+                break
+            elif choice == "8":
+                port_scanner.start_port_scanner()
+                break
+            elif choice == "9":
+                packet_loss.start_monitoring_interface()
+                break
+            elif choice == "10":
+                DOS.monitor_dos()
+                break
+            elif choice == "11":
+                EDA.launch_packet_eda_gui()
+            elif choice == "12":
                 print("Exiting...")
                 break
             else:
                 print("Invalid Choice.")
         except KeyboardInterrupt:
             print("\n[MAIN] Returning to menu... Press Ctrl+C again to exit.")
+
 if __name__ == "__main__":
     main()
