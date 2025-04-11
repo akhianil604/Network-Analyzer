@@ -2,7 +2,7 @@
 Main Repository for 4th Semester, 2nd Mini Project on Computer Networks (UE23CS252B) for a CLI-based Network Traffic Analysis, Monitoring &amp; Security Tool
 
 ## Team Members
-Class & Section: Semester 4th, 'A' Section, B.Tech. Computer Science Engineering
+Class & Section: Semester 4th, 'A' Section, B.Tech. Computer Science Engineering, PES University, Bangalore
 1. Aania George (SRN: PES1UG23CS007)
 2. Akhilesh Anil (SRN: PES1UG23CS045)
 
@@ -34,8 +34,4 @@ Performs EDA on stored packet logs to uncover traffic patterns, protocols used, 
 2. Root privileges to run ```sudo```
 
 ## Run Instructions 
-<pre><code>
-  ```bash 
-  # Run this command in the same directory 
-  sudo python3 Main.py ```
-</code></pre>
+<pre><code>sudo python3 Main.py</code></pre>
