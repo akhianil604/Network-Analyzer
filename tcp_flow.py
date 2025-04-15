@@ -128,7 +128,7 @@ class TCPFlowAnalyzer:
                 avg_rtts.append(avg_rtt * 1000)
 
         if not flows:
-            print("No RTT data available to plot.")
+            # print("No RTT data available to plot.")
             return
 
         plt.figure(figsize=(10, 6))
