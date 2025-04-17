@@ -180,6 +180,10 @@ class TCPFlowAnalyzer:
 
         # If no RTT data is available, skip plotting
         if not flows:
+<<<<<<< HEAD
+=======
+            # print("No RTT data available to plot.")
+>>>>>>> 436817423341a67144ddb2fdf824c66adbf1e3eb
             return
 
         # Create a horizontal bar chart to display RTT for each flow
@@ -215,4 +219,8 @@ if __name__ == "__main__":
         analyzer = TCPFlowAnalyzer()  # Initialize the analyzer
         analyzer.start_capture(duration=30)  # Start the flow analysis with a 30-second duration
     except PermissionError:
+<<<<<<< HEAD
         print("Error: This script requires root/admin privileges. Please run with sudo.")  # Handle permission errors
+=======
+        print("Error: This script requires root/admin privileges. Please run with sudo.")
+>>>>>>> 436817423341a67144ddb2fdf824c66adbf1e3eb
